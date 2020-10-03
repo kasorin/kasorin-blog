@@ -30,7 +30,7 @@ const readContentFiles = async ({ fs }) => {
 /**
  * Markdownファイルの中身をパースして取得する
  */
-const readContentFile = async ({ fs, slug, filename }) => {
+const readContentFile = async ({ fs, slug, filename }: readContentFileArgs) => {
     if (slug === undefined) {
         slug = path.parse(filename).name
     }
@@ -50,6 +50,11 @@ const readContentFile = async ({ fs, slug, filename }) => {
         content,
         slug,
     }
+}
+type readContentFileArgs = {
+    fs: any,
+    slug?: any,
+    filename?: any,
 }
 
 /**
