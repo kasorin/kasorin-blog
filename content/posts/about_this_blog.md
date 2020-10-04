@@ -4,6 +4,9 @@ published: 2020-10-04
 ---
 （この記事は何かしら変更があれば随時更新します。）
 
+## me
+- [@kasorin_r](https://twitter.com/kasorin_r "Twitter:@kasorin_r")
+
 ## 技術情報
 ### 開発言語・フレームワーク
 - React(Next.js)
