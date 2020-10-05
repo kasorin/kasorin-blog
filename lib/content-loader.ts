@@ -25,7 +25,7 @@ const readContentFiles = async ({ fs }) => {
 
     const contents = await Promise.all(promisses)
 
-    return contents.sort(sortWithProp('published', false))
+    return contents.sort(sortWithProp('published', true))
 }
 /**
  * Markdownファイルの中身をパースして取得する
@@ -37,7 +37,7 @@ const readContentFile = async ({ fs, slug, filename }: readContentFileArgs) => {
     const raw = fs.readFileSync(path.join(DIR, `${slug}${EXTENSION}`), 'utf8')
     const matterResult = matter(raw)
 
-    const { title, pulished: rawPublished } = matterResult.data
+    const { title, published: rawPublished } = matterResult.data
 
     const parsedContent = await remark()
         .use(html)
