@@ -10,6 +10,9 @@ const Layout = (props) => {
             <Head>
                 <title>{title ? `${title} | ${siteTitle}` : siteTitle}</title>
                 <link rel="icon" href="/favicon.ico" />
+                <meta name="description" content="kasorin's blog'"/>
+                <meta name="og:title" content={siteTitle}/>
+                <meta name="twitter:card" content="summary_large_image" />
             </Head>
 
             <header>
