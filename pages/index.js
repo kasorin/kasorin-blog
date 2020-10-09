@@ -8,7 +8,7 @@ import { readContentFiles } from "../lib/content-loader"
 export default function Home(props) {
   const { posts, hasArchive } = props
   return (
-    <Layout title="">
+    <Layout home title="">
       {posts.map((post) => <div
         key={post.slug}
         className="post-teaser"

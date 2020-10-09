@@ -2,7 +2,15 @@ import Head from "next/head"
 import Link from "next/link"
 
 const Layout = (props) => {
-    const { title, children } = props
+    const {
+        title,
+        children,
+        home,
+    }: {
+        title: any
+        children: any
+        home?: boolean
+    } = props
     const siteTitle = "滝行記録"
 
     return (
@@ -33,6 +41,14 @@ const Layout = (props) => {
                     {children}
                 </div>
             </main>
+
+            {!home && (
+                <div className="backtohome">
+                    <Link href="/">
+                        <a>Back to Home</a>
+                    </Link>
+                </div>
+            )}
 
             <footer>
                 &copy; {siteTitle}
@@ -65,6 +81,13 @@ const Layout = (props) => {
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                }
+
+                .backtohome {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 0 0 4em;
                 }
             `}</style>
 
