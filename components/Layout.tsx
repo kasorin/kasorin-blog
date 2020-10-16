@@ -42,14 +42,6 @@ const Layout = (props) => {
                 </div>
             </main>
 
-            {!home && (
-                <div className="backtohome">
-                    <Link href="/">
-                        <a>Back to Home</a>
-                    </Link>
-                </div>
-            )}
-
             <footer>
                 &copy; {siteTitle}
             </footer>
@@ -83,12 +75,6 @@ const Layout = (props) => {
                     align-items: center;
                 }
 
-                .backtohome {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    margin: 0 0 4em;
-                }
             `}</style>
 
             <style jsx global>{`
