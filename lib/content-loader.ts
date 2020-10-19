@@ -12,7 +12,7 @@ const EXTENSION = ".md"
  * Markdownファイル一覧を取得する
  */
 const listContentFiles = ({ fs }) => {
-    const filenames = fs.readdirSync(DIR)
+    const filenames: string[] = fs.readdirSync(DIR)
     return filenames
         .filter((filename) => path.parse(filename).ext === EXTENSION)
 }
@@ -56,7 +56,44 @@ type readContentFileArgs = {
     slug?: any,
     filename?: any,
 }
-
+/**
+ * 前の投稿を取得する
+ */
+const getPrevPost = async ({fs, slug}: {fs: any, slug: string}) => {
+    const posts = await readContentFiles({fs})
+    const findPrevPostIndex = () => {
+        const index = posts.findIndex((post) => post.slug === slug) - 1 
+        return !(index === -1) ? index : -1
+    }
+    const prevPostIndex = findPrevPostIndex()
+    return !(prevPostIndex === -1)
+        ? posts[prevPostIndex]
+        : {
+            title: '',
+            published: '',
+            content: '',
+            slug: '',
+        }
+}
+/**
+ * 後の投稿を取得する
+ */
+const getNextPost = async ({fs, slug}: {fs: any, slug: string}) => {
+    const posts = await readContentFiles({fs})
+    const findNextPostIndex = () => {
+        const index = posts.findIndex((post) => post.slug === slug) + 1
+        return !(index >= posts.length) ? index : -1
+    } 
+    const nextPostIndex = findNextPostIndex()
+    return !(nextPostIndex === -1)
+        ? posts[nextPostIndex]
+        : {
+            title: '',
+            published: '',
+            content: '',
+            slug: '',
+        }
+}
 /**
  * Markdownの投稿をソートするためのヘルパー
  */
@@ -68,4 +105,4 @@ const sortWithProp = (name, reversed) => (a, b) => {
     }
 }
 
-export { listContentFiles, readContentFiles, readContentFile }
+export { listContentFiles, readContentFiles, readContentFile, getPrevPost, getNextPost }

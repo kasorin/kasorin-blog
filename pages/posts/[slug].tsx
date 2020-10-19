@@ -3,7 +3,7 @@ import path from "path"
 import Link from "next/link"
 
 import Layout from "../../components/Layout"
-import { listContentFiles, readContentFile } from "../../lib/content-loader"
+import { listContentFiles, readContentFile, getPrevPost, getNextPost } from "../../lib/content-loader"
 
 export default function Post(params) {
     return (
@@ -14,17 +14,30 @@ export default function Post(params) {
             <div className="post-body"
                 dangerouslySetInnerHTML={{ __html: params.content }}
             />
-            <div className="post-footer">
-                <Link href="/">
-                    <a>Back to Home</a>
-                </Link>
-            </div>
+            <ul className="post-footer">
+                {params.prevPost.slug? (
+                    <li className="post-footer-prev">
+                        <Link href="/posts/[id]" as={`${params.prevPost.slug}`}>
+                            <a>{`[Previous post: ${params.prevPost.title}]`}</a>
+                        </Link>
+                    </li>
+                ): ''}
+                <li className="post-footer-home">
+                    <Link href="/">
+                        <a>[Index]</a>
+                    </Link>
+                </li>
+                {params.nextPost.slug? (
+                    <li className="post-footer-next">
+                        <Link href="/posts/[id]" as={`${params.nextPost.slug}`}>
+                            <a>{`[Next post: ${params.nextPost.title}]`}</a>
+                        </Link>
+                    </li>
+                ): ''}
+            </ul>
             <style jsx>{`
                 .post-footer {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    margin: 0 0 4em;
+                    list-style-type: none;
                 }
             `}</style>
         </Layout>
@@ -33,9 +46,19 @@ export default function Post(params) {
 
 export async function getStaticProps({ params }) {
     const content = await readContentFile({ fs, slug: params.slug })
+    const prevPost = await getPrevPost({fs, slug: params.slug })
+    const nextPost = await getNextPost({fs, slug: params.slug })
     return {
         props: {
             ...content,
+            prevPost: {
+                title: prevPost.title,
+                slug: prevPost.slug,
+            },
+            nextPost: {
+                title: nextPost.title,
+                slug: nextPost.slug,
+            },
         }
     }
 }
