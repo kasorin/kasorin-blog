@@ -62,8 +62,8 @@ type readContentFileArgs = {
 const getPrevPost = async ({fs, slug}: {fs: any, slug: string}) => {
     const posts = await readContentFiles({fs})
     const findPrevPostIndex = () => {
-        const index = posts.findIndex((post) => post.slug === slug) - 1 
-        return !(index === -1) ? index : -1
+        const index = posts.findIndex((post) => post.slug === slug) + 1 
+        return !(index >= posts.length) ? index : -1
     }
     const prevPostIndex = findPrevPostIndex()
     return !(prevPostIndex === -1)
@@ -81,8 +81,8 @@ const getPrevPost = async ({fs, slug}: {fs: any, slug: string}) => {
 const getNextPost = async ({fs, slug}: {fs: any, slug: string}) => {
     const posts = await readContentFiles({fs})
     const findNextPostIndex = () => {
-        const index = posts.findIndex((post) => post.slug === slug) + 1
-        return !(index >= posts.length) ? index : -1
+        const index = posts.findIndex((post) => post.slug === slug) - 1
+        return index
     } 
     const nextPostIndex = findNextPostIndex()
     return !(nextPostIndex === -1)
