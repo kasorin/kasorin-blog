@@ -5,7 +5,7 @@ import Link from "next/link"
 import Layout from "../components/Layout"
 import { readContentFiles } from "../lib/content-loader"
 
-export default function Home(props) {
+export default function Home(props: {posts:any, hasArchive:boolean}): JSX.Element {
   const { posts, hasArchive } = props
   return (
     <Layout home title="">
@@ -43,10 +43,22 @@ export default function Home(props) {
   )
 }
 
+type GetStaticProps = {
+  props:{
+    posts:{
+      title: any
+      published: string
+      content: string
+      slug: any
+    }[]
+    hasArchive:boolean
+  }
+}
+
 /**
  * ページコンポーネントで使用する値を用意する
  */
-export async function getStaticProps({ params }) {
+export async function getStaticProps(): Promise<GetStaticProps>{
   const MAX_COUNT = 5
   const posts = await readContentFiles({ fs })
   const hasArchive = posts.length > MAX_COUNT
