@@ -9,10 +9,18 @@ import { formatDate } from "./date"
 
 const DIR = path.join(process.cwd(), "content/posts")
 const EXTENSION = ".md"
+
+type Post = {
+    title: string
+    published: string
+    content: string
+    slug: string
+}
+
 /**
  * Markdownファイル一覧を取得する
  */
-const listContentFiles = () => {
+const listContentFiles = (): string[] => {
     const filenames: string[] = fs.readdirSync(DIR)
     return filenames
         .filter((filename) => path.parse(filename).ext === EXTENSION)
@@ -20,7 +28,7 @@ const listContentFiles = () => {
 /**
  * Markdownファイルの中身を全件パースして取得する
  */
-const readContentFiles = async () => {
+const readContentFiles = async (): Promise<Post[]> => {
     const promisses = listContentFiles()
         .map((filename) => readContentFile({ filename }))
 
@@ -31,7 +39,7 @@ const readContentFiles = async () => {
 /**
  * Markdownファイルの中身をパースして取得する
  */
-const readContentFile = async ({ slug, filename }: readContentFileArgs) => {
+const readContentFile = async ({ slug, filename }: {slug?: string, filename?: string}): Promise<Post> => {
     if (slug === undefined) {
         slug = path.parse(filename).name
     }
@@ -52,14 +60,10 @@ const readContentFile = async ({ slug, filename }: readContentFileArgs) => {
         slug,
     }
 }
-type readContentFileArgs = {
-    slug?: any,
-    filename?: any,
-}
 /**
  * 前の投稿を取得する
  */
-const getPrevPost = async ({ slug }: { slug: string }) => {
+const getPrevPost = async ({ slug }: { slug: string }): Promise<Post> => {
     const posts = await readContentFiles()
     const findPrevPostIndex = () => {
         const index = posts.findIndex((post) => post.slug === slug) + 1 
@@ -78,7 +82,7 @@ const getPrevPost = async ({ slug }: { slug: string }) => {
 /**
  * 後の投稿を取得する
  */
-const getNextPost = async ({ slug }: { slug: string }) => {
+const getNextPost = async ({ slug }: { slug: string }): Promise<Post> => {
     const posts = await readContentFiles()
     const findNextPostIndex = () => {
         const index = posts.findIndex((post) => post.slug === slug) - 1
