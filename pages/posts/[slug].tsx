@@ -45,9 +45,9 @@ export default function Post(params) {
 }
 
 export async function getStaticProps({ params }) {
-    const content = await readContentFile({ fs, slug: params.slug })
-    const prevPost = await getPrevPost({fs, slug: params.slug })
-    const nextPost = await getNextPost({fs, slug: params.slug })
+    const content = await readContentFile({ slug: params.slug })
+    const prevPost = await getPrevPost({ slug: params.slug })
+    const nextPost = await getNextPost({ slug: params.slug })
     return {
         props: {
             ...content,
@@ -64,7 +64,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-    const paths = listContentFiles({ fs })
+    const paths = listContentFiles()
     .map((filename) => ({
         params: {
             slug: path.parse(filename).name,

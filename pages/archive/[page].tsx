@@ -46,7 +46,7 @@ export async function getStaticProps({ params }) {
     const page = parseInt(params.page, 10)
     const end = COUNT_PER_PAGE * page
     const start = end - COUNT_PER_PAGE
-    const posts = await readContentFiles({ fs })
+    const posts = await readContentFiles()
 
     return {
         props: {
@@ -62,7 +62,7 @@ export async function getStaticProps({ params }) {
  * 有効なURLパラメータを全件返す
  */
 export async function getStaticPaths() {
-    const posts = await listContentFiles({ fs })
+    const posts = await listContentFiles()
     const pages = range(Math.ceil(posts.length / COUNT_PER_PAGE))
     const paths = pages.map((page) => ({
         params: { page: `${page}` }

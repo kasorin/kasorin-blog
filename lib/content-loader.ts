@@ -1,4 +1,5 @@
 import path from "path"
+import fs from "fs"
 
 import remark from "remark"
 import html from "remark-html"
@@ -11,7 +12,7 @@ const EXTENSION = ".md"
 /**
  * Markdownファイル一覧を取得する
  */
-const listContentFiles = ({ fs }) => {
+const listContentFiles = () => {
     const filenames: string[] = fs.readdirSync(DIR)
     return filenames
         .filter((filename) => path.parse(filename).ext === EXTENSION)
@@ -19,9 +20,9 @@ const listContentFiles = ({ fs }) => {
 /**
  * Markdownファイルの中身を全件パースして取得する
  */
-const readContentFiles = async ({ fs }) => {
-    const promisses = listContentFiles({ fs })
-        .map((filename) => readContentFile({ fs, filename }))
+const readContentFiles = async () => {
+    const promisses = listContentFiles()
+        .map((filename) => readContentFile({ filename }))
 
     const contents = await Promise.all(promisses)
 
@@ -30,7 +31,7 @@ const readContentFiles = async ({ fs }) => {
 /**
  * Markdownファイルの中身をパースして取得する
  */
-const readContentFile = async ({ fs, slug, filename }: readContentFileArgs) => {
+const readContentFile = async ({ slug, filename }: readContentFileArgs) => {
     if (slug === undefined) {
         slug = path.parse(filename).name
     }
@@ -52,15 +53,14 @@ const readContentFile = async ({ fs, slug, filename }: readContentFileArgs) => {
     }
 }
 type readContentFileArgs = {
-    fs: any,
     slug?: any,
     filename?: any,
 }
 /**
  * 前の投稿を取得する
  */
-const getPrevPost = async ({fs, slug}: {fs: any, slug: string}) => {
-    const posts = await readContentFiles({fs})
+const getPrevPost = async ({ slug }: { slug: string }) => {
+    const posts = await readContentFiles()
     const findPrevPostIndex = () => {
         const index = posts.findIndex((post) => post.slug === slug) + 1 
         return !(index >= posts.length) ? index : -1
@@ -78,8 +78,8 @@ const getPrevPost = async ({fs, slug}: {fs: any, slug: string}) => {
 /**
  * 後の投稿を取得する
  */
-const getNextPost = async ({fs, slug}: {fs: any, slug: string}) => {
-    const posts = await readContentFiles({fs})
+const getNextPost = async ({ slug }: { slug: string }) => {
+    const posts = await readContentFiles()
     const findNextPostIndex = () => {
         const index = posts.findIndex((post) => post.slug === slug) - 1
         return index

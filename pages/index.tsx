@@ -60,7 +60,7 @@ type GetStaticProps = {
  */
 export async function getStaticProps(): Promise<GetStaticProps>{
   const MAX_COUNT = 5
-  const posts = await readContentFiles({ fs })
+  const posts = await readContentFiles()
   const hasArchive = posts.length > MAX_COUNT
 
   return {
