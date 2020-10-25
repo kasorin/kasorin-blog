@@ -3,7 +3,17 @@ import Link from "next/link"
 import Layout from "../components/Layout"
 import { readContentFiles } from "../lib/content-loader"
 
-export default function Home(props: {posts:any, hasArchive:boolean}): JSX.Element {
+type Props = {
+  posts:{
+    title: string
+    published: string
+    content: string
+    slug: string
+  }[]
+  hasArchive: boolean
+}
+
+export default function Home(props: Props): JSX.Element {
   const { posts, hasArchive } = props
   return (
     <Layout home title="">
@@ -42,15 +52,7 @@ export default function Home(props: {posts:any, hasArchive:boolean}): JSX.Elemen
 }
 
 type GetStaticProps = {
-  props:{
-    posts:{
-      title: any
-      published: string
-      content: string
-      slug: any
-    }[]
-    hasArchive:boolean
-  }
+  props: Props
 }
 
 /**
