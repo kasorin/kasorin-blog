@@ -4,7 +4,22 @@ import Link from "next/link"
 import Layout from "../../components/Layout"
 import { listContentFiles, readContentFile, getPrevPost, getNextPost } from "../../lib/content-loader"
 
-export default function Post(params) {
+type Params = {
+    title: string
+    published: string
+    content: string
+    slug: string
+    prevPost: {
+        title: string
+        slug: string
+    }
+    nextPost: {
+        title: string
+        slug: string
+    }
+}
+
+export default function Post(params: Params): JSX.Element {
     return (
         <Layout title={params.title}>
             <div className="post-meta">
@@ -43,7 +58,11 @@ export default function Post(params) {
     )
 }
 
-export async function getStaticProps({ params }) {
+type GetStaticProps = {
+    props: Params
+}
+
+export async function getStaticProps({ params }: { params: { slug: string } }): Promise<GetStaticProps> {
     const content = await readContentFile({ slug: params.slug })
     const prevPost = await getPrevPost({ slug: params.slug })
     const nextPost = await getNextPost({ slug: params.slug })
@@ -62,13 +81,21 @@ export async function getStaticProps({ params }) {
     }
 }
 
-export async function getStaticPaths() {
+type GetStaticPaths = {
+    paths: {
+        params: {
+            slug: string
+        }
+    }[]
+    fallback: boolean
+}
+
+export async function getStaticPaths(): Promise<GetStaticPaths> {
     const paths = listContentFiles()
     .map((filename) => ({
         params: {
             slug: path.parse(filename).name,
         }
     }))
-
     return { paths, fallback: false }
 }
