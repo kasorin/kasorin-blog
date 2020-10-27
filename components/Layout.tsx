@@ -21,7 +21,7 @@ const Layout = (props) => {
                 <meta name="description" content="kasorin's blog'"/>
                 <meta property="og:title" content={title ? `${title}` : siteTitle}/>
                 <meta property="og:url" content="kasorin.work"/>
-                <meta property="og:image" content="https://og-image.vercel.app/**kasorin.works**.png?theme=dark&md=1&fontSize=100px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fvercel-triangle-white.svg" />
+                <meta property="og:image" content="https://og-image.vercel.app/**kasorin.work**.png?theme=dark&md=1&fontSize=100px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fvercel-triangle-white.svg" />
                 <meta property="og:description" content="kasorin's blog"/>
                 <meta name="twitter:card" content="summary"/>
                 <meta name="twitter:site" content="@kasorin_r"/>
