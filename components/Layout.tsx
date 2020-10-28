@@ -95,6 +95,10 @@ const Layout = (props) => {
                     font-family: Montserrat, -apple-system, "Segoe UI", "Helvetica Neue", "Hiragino Kaku Gothic ProN", メイリオ, meiryo, sans-serif;
                 }
 
+                a {
+                    color: green;
+                }
+
                 * {
                     box-sizing: border-box;
                 }
