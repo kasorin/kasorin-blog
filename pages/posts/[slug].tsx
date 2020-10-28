@@ -29,10 +29,10 @@ export default function Post(params: Params): JSX.Element {
                 dangerouslySetInnerHTML={{ __html: params.content }}
             />
             <ul className="post-footer">
-                {params.prevPost.slug? (
-                    <li className="post-footer-prev">
-                        <Link href="/posts/[id]" as={`${params.prevPost.slug}`}>
-                            <a>{`[Previous post: ${params.prevPost.title}]`}</a>
+                {params.nextPost.slug? (
+                    <li className="post-footer-next">
+                        <Link href="/posts/[id]" as={`${params.nextPost.slug}`}>
+                            <a>{`[Next post: ${params.nextPost.title}]`}</a>
                         </Link>
                     </li>
                 ): ''}
@@ -41,10 +41,10 @@ export default function Post(params: Params): JSX.Element {
                         <a>[Index]</a>
                     </Link>
                 </li>
-                {params.nextPost.slug? (
-                    <li className="post-footer-next">
-                        <Link href="/posts/[id]" as={`${params.nextPost.slug}`}>
-                            <a>{`[Next post: ${params.nextPost.title}]`}</a>
+                {params.prevPost.slug? (
+                    <li className="post-footer-prev">
+                        <Link href="/posts/[id]" as={`${params.prevPost.slug}`}>
+                            <a>{`[Previous post: ${params.prevPost.title}]`}</a>
                         </Link>
                     </li>
                 ): ''}
