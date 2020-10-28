@@ -2,7 +2,7 @@ import path from "path"
 import Link from "next/link"
 
 import Layout from "../../components/Layout"
-import { listContentFiles, readContentFile, getPrevPost, getNextPost } from "../../lib/content-loader"
+import { readContentFiles, readContentFile, getPrevPost, getNextPost } from "../../lib/content-loader"
 
 type Params = {
     title: string
@@ -91,10 +91,10 @@ type GetStaticPaths = {
 }
 
 export async function getStaticPaths(): Promise<GetStaticPaths> {
-    const paths = listContentFiles()
-    .map((filename) => ({
+    const posts = await readContentFiles()
+    const paths = posts.map((post) => ({
         params: {
-            slug: path.parse(filename).name,
+            slug: post.slug
         }
     }))
     return { paths, fallback: false }

@@ -26,15 +26,16 @@ const listContentFiles = (): string[] => {
         .filter((filename) => path.parse(filename).ext === EXTENSION)
 }
 /**
- * Markdownファイルの中身を全件パースして取得する
+ * Markdownファイルの中身を全件パースして取得し、published:falseのポストは弾く
  */
 const readContentFiles = async (): Promise<Post[]> => {
     const promisses = listContentFiles()
         .map((filename) => readContentFile({ filename }))
 
     const contents = await Promise.all(promisses)
+    const publishedContents = contents.filter(post => post.published)
 
-    return contents.sort(sortWithProp('published', true))
+    return publishedContents.sort(sortWithProp('published', true))
 }
 /**
  * Markdownファイルの中身をパースして取得する
@@ -109,4 +110,4 @@ const sortWithProp = (name, reversed) => (a, b) => {
     }
 }
 
-export { listContentFiles, readContentFiles, readContentFile, getPrevPost, getNextPost }
+export { readContentFiles, readContentFile, getPrevPost, getNextPost }
