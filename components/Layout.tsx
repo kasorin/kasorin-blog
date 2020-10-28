@@ -5,7 +5,6 @@ const Layout = (props) => {
     const {
         title,
         children,
-        home,
     }: {
         title: any
         children: any
