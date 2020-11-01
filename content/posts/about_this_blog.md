@@ -6,6 +6,8 @@ published: 2020-10-04
 
 # me
 - [@kasorin_r](https://twitter.com/kasorin_r "Twitter:@kasorin_r")
+- 無職（仕事探し中です）
+- [wishlist](https://www.amazon.jp/hz/wishlist/ls/3BP2FCGMVXFTD?ref_=wl_share)
 # 技術情報
 ## 開発言語・フレームワーク
 - React(Next.js)
