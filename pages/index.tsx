@@ -2,6 +2,7 @@ import Link from "next/link"
 
 import Layout from "../components/Layout"
 import { readContentFiles } from "../lib/content-loader"
+import { publishRss } from "../lib/rss"
 
 type Props = {
   posts:{
@@ -62,6 +63,8 @@ export async function getStaticProps(): Promise<GetStaticProps>{
   const MAX_COUNT = 5
   const posts = await readContentFiles()
   const hasArchive = posts.length > MAX_COUNT
+
+  await publishRss(posts)
 
   return {
     props: {
