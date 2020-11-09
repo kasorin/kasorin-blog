@@ -35,3 +35,6 @@ yarn-error.log*
 
 # draft posts
 /draft
+
+# generated RSS
+/public/rss.xml

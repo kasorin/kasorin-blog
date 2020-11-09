@@ -1,6 +1,12 @@
 import fs from "fs"
 
-const generateRssItem = (post: any): string => {
+type Post = {
+    slug: string
+    title: string
+    published: string
+}
+
+const generateRssItem = (post: Post): string => {
     return (`
         <item>
             <guid>https://blog.kasorin.work/posts/${post.slug}</guid>
@@ -11,7 +17,7 @@ const generateRssItem = (post: any): string => {
     `)
 }
 
-const generateRss = (posts: any[]): string => {
+const generateRss = (posts: Post[]): string => {
     return (`
         <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
             <channel>
@@ -24,7 +30,7 @@ const generateRss = (posts: any[]): string => {
         </rss>
     `)
 }
-const publishRss = async (posts) => {
+const publishRss = async (posts: Post[]) => {
     const PATH = './public/rss.xml'
     const rss = generateRss(posts)
     fs.writeFileSync(PATH, rss)
