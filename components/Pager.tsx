@@ -32,7 +32,7 @@ const Pager = (props) => {
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
-                    flew-wrap: nowrap;
+                    flex-wrap: nowrap;
                 }
 
                 .pager-item {
