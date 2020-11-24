@@ -30,7 +30,7 @@ const generateRss = (posts: Post[]): string => {
         </rss>
     `)
 }
-const publishRss = async (posts: Post[]) => {
+const publishRss = async (posts: Post[]): Promise<void> => {
     const PATH = './public/rss.xml'
     const rss = generateRss(posts)
     fs.writeFileSync(PATH, rss)

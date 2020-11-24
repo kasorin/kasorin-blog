@@ -1,4 +1,3 @@
-import path from "path"
 import Link from "next/link"
 
 import Layout from "../../components/Layout"

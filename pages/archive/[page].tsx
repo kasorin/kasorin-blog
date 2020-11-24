@@ -6,7 +6,13 @@ import { readContentFiles } from "../../lib/content-loader"
 
 const COUNT_PER_PAGE = 10
 
-export default function Archive(props) {
+export default function Archive(
+    props: {
+        posts: any[],
+        page: number,
+        total: number,
+        perPage: number
+    }): JSX.Element {
     const { posts, page, total, perPage } = props
     return (
         <Layout title="アーカイブ">
@@ -40,7 +46,7 @@ export default function Archive(props) {
 /**
  * ページコンポーネントで使用する値を用意する
  */
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params }: {params:{page}}):Promise<{props}> {
     const page = parseInt(params.page, 10)
     const end = COUNT_PER_PAGE * page
     const start = end - COUNT_PER_PAGE
@@ -59,7 +65,7 @@ export async function getStaticProps({ params }) {
 /**
  * 有効なURLパラメータを全件返す
  */
-export async function getStaticPaths() {
+export async function getStaticPaths():Promise<{paths,fallback}> {
     const posts = await readContentFiles()
     const pages = range(Math.ceil(posts.length / COUNT_PER_PAGE))
     const paths = pages.map((page) => ({

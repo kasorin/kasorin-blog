@@ -1,6 +1,13 @@
 import Link from "next/link"
 
-const Pager = (props) => {
+const Pager = (
+    props: {
+        total: number,
+        page: number,
+        perPage: number,
+        href: string,
+        asCallback: any
+    }): JSX.Element => {
     const { total, page, perPage, href, asCallback } = props
 
     const prevPage = page > 1 ? page -1 : null

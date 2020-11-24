@@ -1,7 +1,7 @@
 import Head from "next/head"
 import Link from "next/link"
 
-const Layout = (props) => {
+const Layout = (props: {title: string, home?: boolean, children}): JSX.Element => {
     const {
         title,
         children,
