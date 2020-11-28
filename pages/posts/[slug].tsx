@@ -1,4 +1,8 @@
+import React from 'react'
 import Link from "next/link"
+import ReactMarkdown from "react-markdown"
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism"
 
 import Layout from "../../components/Layout"
 import { readContentFiles, readContentFile, getPrevPost, getNextPost } from "../../lib/content-loader"
@@ -19,14 +23,22 @@ type Params = {
 }
 
 export default function Post(params: Params): JSX.Element {
+    const renderers = {
+        // eslint-disable-next-line react/display-name
+        code: ({language, value}) => {
+            // eslint-disable-next-line react/no-children-prop
+            return <SyntaxHighlighter style={vscDarkPlus} language={language} children={value} />
+        }
+    }
+    
     return (
         <Layout title={params.title}>
             <div className="post-meta">
                 <span>{params.published}</span>
             </div>
-            <div className="post-body"
-                dangerouslySetInnerHTML={{ __html: params.content }}
-            />
+            <ReactMarkdown className="post-body" renderers={renderers}>
+                {params.content}
+            </ReactMarkdown>
             <ul className="post-footer">
                 {params.nextPost.slug? (
                     <li className="post-footer-next">

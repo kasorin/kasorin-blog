@@ -1,8 +1,6 @@
 import path from "path"
 import fs from "fs"
 
-import remark from "remark"
-import html from "remark-html"
 import matter from "gray-matter"
 
 import { formatDate } from "./date"
@@ -49,15 +47,10 @@ const readContentFile = async ({ slug, filename }: {slug?: string, filename?: st
 
     const { title, published: rawPublished } = matterResult.data
 
-    const parsedContent = await remark()
-        .use(html)
-        .process(matterResult.content)
-    const content = parsedContent.toString()
-
     return {
         title,
         published: formatDate(rawPublished),
-        content,
+        content: matterResult.content,
         slug,
     }
 }

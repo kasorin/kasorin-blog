@@ -19,7 +19,7 @@ published: 2020-11-09
 
 まあやれることはわかったので、lib/rss.tsにこういう感じのやつを書きます。（コードのスタイルあててないので見づらいですね、そのうちきれいにします……）
 
-```ts:rss.ts
+~~~typescript
 import fs from "fs"
 
 type Post = {
@@ -59,7 +59,7 @@ const publishRss = async (posts: Post[]) => {
 }
 
 export { publishRss }
-```
+~~~
 
 これをindex.tsxあたりにimportして、getStaticProps()内で呼び出せば、ビルド時にpublic/rss.xmlが吐き出されます。public/rss.xmlはビルド後blog.kasorin.work/rss.xmlとして公開されます。**SUCCESS!**
 
