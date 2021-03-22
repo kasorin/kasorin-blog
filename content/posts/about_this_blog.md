@@ -5,7 +5,7 @@ published: 2020-10-04
 （この記事は何かしら変更があれば随時更新します。）
 
 # me
-- [@kasorin_r](https://twitter.com/kasorin_r "Twitter:@kasorin_r")
+- [@kasorin_r](https://twitter.com/kasorin_r "Twitter:@kasorin_r") ※技術的なことはツイートしていません、趣味のアカウントです
 - 無職（仕事探し中です）
 - [wishlist](https://www.amazon.jp/hz/wishlist/ls/3BP2FCGMVXFTD?ref_=wl_share)
 # 技術情報
