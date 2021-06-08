@@ -297,7 +297,70 @@ $ node index.js
 - ライブラリとしてNPMで公開する
 - それを使って簡単なWebアプリとして公開する
 
-今のところ一番目の「とりあえず動くものを作る」は達成できました。やったね。では粛々と二番目の「まともな速度で動くものに改良する」に取り掛かりましょう。（現在実装中）
+今のところ一番目の「とりあえず動くものを作る」は達成できました。やったね。では粛々と二番目の「まともな速度で動くものに改良する」に取り掛かりましょう。
+
+### （2021/06/09追記）
+
+とりあえず気になっていたところである、ゲームの状態を表すオブジェクトをコピーする関数deepCopy()から改修します。
+
+そもそもそもそもオブジェクトをコピーするだけの関数ってなんのこっちゃですが、JavaScriptではネイティブ型（String, Numberなど）とオブジェクトや配列等の型で挙動に違いがあるせいで実装時にやや苦労しました。
+
+具体的には呼び出し先の再帰関数の中で操作したゲーム状態オブジェクトへの変更が、呼び出し元で持っているゲーム状態にも反映されてしまい、呼び出し元に戻ってもゲーム状態が元に戻らないという……（文章だとわかりづらいですね）
+
+~~~typescript
+const deepCopy = (obj) => {
+  const returnArray = JSON.parse(JSON.stringify(obj));
+  return returnArray;
+}
+~~~
+
+というわけで渡されたオブジェクトを元のオブジェクトへの参照ではなく全く別のオブジェクトとしてコピーする（ディープコピー）ためにこういうことをします。JavaScript組み込みの関数を使う場合はこれが一番短く書けます。今回のようなNumberとString[][]の単純なオブジェクトであれば問題なくコピーできますが、Date型など一部のプロパティはこの方法ではコピーできません。
+
+「とりあえず動く」版はこのdeepCopy()で問題なく動きましたが、たぶんこれが相当遅いので（勘です）、よさそうな代替手法（[Qiita](https://qiita.com/suin/items/80e687dd1789b9d9d2fd)）を試してみます。
+
+~~~typescript
+const jsonCopy = (arg) => JSON.parse(JSON.stringify(arg));
+const rfdcCopy = (arg) => clone(arg);
+
+const testTimes = 1000000
+
+// jsonCopy
+const jsonCopyStartedTime = performance.now();
+for (let i=0;i<testTimes; i++){
+  const copied = jsonCopy(value);
+}
+const jsonCopyFinishedTime = performance.now();
+
+// rfdcCopy
+const rfdcCopyStartedTime = performance.now();
+for (let i=0;i<testTimes; i++){
+  const copied = rfdcCopy(value);
+}
+const rfdcCopyFinishedTime = performance.now();
+
+console.log(`json: ${jsonCopyFinishedTime - jsonCopyStartedTime}`);
+console.log(`rfdc: ${rfdcCopyFinishedTime - rfdcCopyStartedTime}`);
+~~~
+
+簡単に計測コードを書きました。これでオブジェクトのディープコピーを100万回行った時間をミリ秒で比較できます。さっそく実行です。
+
+~~~
+json: 9885.751799999736
+rfdc: 14.5304000005126
+~~~
+
+思ったよりすごい差になりましたね。上の記事内にある他の方法も試しましたが、rfdcが最速でした。これでdeepCopy()を修正します。
+
+~~~typescript
+const deepCopy = (obj) => {
+  const returnArray = clone(obj);
+  return returnArray;
+}
+~~~
+
+修正後に7手のテストデータで解けることを確認した後に23手のデータを解いてみましたが、相変わらず23手のほうは5分ほど待っても完了しません。deepCopy()の修正だけではまだまだ実用には遠いようです。引き続き改修を続けることにします。
+
+（2021/06/09追記ここまで）
 
 ### （調査済・記事更新予定）仕方ないので倉庫番のソルバーを調べてみた編
 
