@@ -6,6 +6,7 @@ import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism"
 
 import Layout from "../../components/Layout"
 import { readContentFiles, readContentFile, getPrevPost, getNextPost } from "../../lib/content-loader"
+import { CodeComponent } from 'react-markdown/src/ast-to-react'
 
 type Params = {
     title: string
@@ -23,14 +24,13 @@ type Params = {
 }
 
 export default function Post(params: Params): JSX.Element {
+    type CodeProps = Parameters<CodeComponent>[0]
     const components = {
-        code({node, inline, className, children, ...props}) {
+        code({node, className, ...props}: CodeProps) {
             const match = /language-(\w+)/.exec(className || '')
-            return !inline && match ? (
-                <SyntaxHighlighter style={vscDarkPlus} language={match[1]} PreTag="div" children={String(children).replace(/\n$/, '')} {...props} />
-            ) : (
-                <code className={className} {...props} />
-            )
+            return match
+                ? <SyntaxHighlighter style={vscDarkPlus} language={match[1]} PreTag="div" {...props} />
+                : <code className={className} {...props} />            
         }
     }
     
