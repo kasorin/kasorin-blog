@@ -23,11 +23,14 @@ type Params = {
 }
 
 export default function Post(params: Params): JSX.Element {
-    const renderers = {
-        // eslint-disable-next-line react/display-name
-        code: ({language, value}) => {
-            // eslint-disable-next-line react/no-children-prop
-            return <SyntaxHighlighter style={vscDarkPlus} language={language} children={value} />
+    const components = {
+        code({node, inline, className, children, ...props}) {
+            const match = /language-(\w+)/.exec(className || '')
+            return !inline && match ? (
+                <SyntaxHighlighter style={vscDarkPlus} language={match[1]} PreTag="div" children={String(children).replace(/\n$/, '')} {...props} />
+            ) : (
+                <code className={className} {...props} />
+            )
         }
     }
     
@@ -36,7 +39,10 @@ export default function Post(params: Params): JSX.Element {
             <div className="post-meta">
                 <span>{params.published}</span>
             </div>
-            <ReactMarkdown className="post-body" renderers={renderers}>
+            <ReactMarkdown
+                components={components}
+                className="post-body"
+            >
                 {params.content}
             </ReactMarkdown>
             <ul className="post-footer">
