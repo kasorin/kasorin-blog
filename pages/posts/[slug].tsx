@@ -1,12 +1,12 @@
 import React from 'react'
 import Link from "next/link"
 import ReactMarkdown from "react-markdown"
+import { CodeComponent } from 'react-markdown/src/ast-to-react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism"
 
 import Layout from "../../components/Layout"
 import { readContentFiles, readContentFile, getPrevPost, getNextPost } from "../../lib/content-loader"
-import { CodeComponent } from 'react-markdown/src/ast-to-react'
 
 type Params = {
     title: string
@@ -26,11 +26,15 @@ type Params = {
 export default function Post(params: Params): JSX.Element {
     type CodeProps = Parameters<CodeComponent>[0]
     const components = {
-        code({node, className, ...props}: CodeProps) {
-            const match = /language-(\w+)/.exec(className || '')
-            return match
-                ? <SyntaxHighlighter style={vscDarkPlus} language={match[1]} PreTag="div" {...props} />
-                : <code className={className} {...props} />            
+        code({node, className, children, ...props}: CodeProps) {
+            if (className === 'language-mermaid'){
+                return <div className="mermaid" children={node.children[0].value} {...props}/>
+            } else {
+                const match = /language-(\w+)/.exec(className || '')
+                return match
+                    ? <SyntaxHighlighter style={vscDarkPlus} language={match[1]} PreTag="div" children={children} {...props} />
+                    : <code className={className} {...props} />
+            }
         }
     }
     
