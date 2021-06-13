@@ -29,7 +29,6 @@ export default function Post(params: Params): JSX.Element {
     const components = {
         code({node, className, children, ...props}: CodeProps) {
             if (className === 'language-mermaid'){
-                // return <div className="mermaid" children={node.children[0].value} {...props}/>
                 return <Mermaid graphDefinition={node.children[0].value}/>
             } else {
                 const match = /language-(\w+)/.exec(className || '')
