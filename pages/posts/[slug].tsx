@@ -6,6 +6,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism"
 
 import Layout from "../../components/Layout"
+import Mermaid from '../../components/Mermaid';
 import { readContentFiles, readContentFile, getPrevPost, getNextPost } from "../../lib/content-loader"
 
 type Params = {
@@ -28,7 +29,8 @@ export default function Post(params: Params): JSX.Element {
     const components = {
         code({node, className, children, ...props}: CodeProps) {
             if (className === 'language-mermaid'){
-                return <div className="mermaid" children={node.children[0].value} {...props}/>
+                // return <div className="mermaid" children={node.children[0].value} {...props}/>
+                return <Mermaid graphDefinition={node.children[0].value}/>
             } else {
                 const match = /language-(\w+)/.exec(className || '')
                 return match
