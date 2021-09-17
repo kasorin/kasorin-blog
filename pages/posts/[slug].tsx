@@ -27,8 +27,9 @@ type Params = {
 export default function Post(params: Params): JSX.Element {
     type CodeProps = Parameters<CodeComponent>[0]
     const components = {
-        code({node, className, children, ...props}: CodeProps) {
+        code({node, className, children, ...props}: any) {
             if (className === 'language-mermaid'){
+                console.log(node.children[0])
                 return <Mermaid graphDefinition={node.children[0].value}/>
             } else {
                 const match = /language-(\w+)/.exec(className || '')
