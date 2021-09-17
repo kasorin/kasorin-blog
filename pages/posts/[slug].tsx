@@ -25,7 +25,7 @@ type Params = {
 }
 
 export default function Post(params: Params): JSX.Element {
-    type CodeProps = Parameters<CodeComponent>[0]
+    // type CodeProps = Parameters<CodeComponent>[0]
     const components = {
         code({node, className, children, ...props}: any) {
             if (className === 'language-mermaid'){
@@ -34,7 +34,11 @@ export default function Post(params: Params): JSX.Element {
             } else {
                 const match = /language-(\w+)/.exec(className || '')
                 return match
-                    ? <SyntaxHighlighter style={vscDarkPlus} language={match[1]} PreTag="div" children={children} {...props} />
+                    ? (
+                        <SyntaxHighlighter style={vscDarkPlus} language={match[1]} PreTag="div" {...props} >
+                            {children}
+                        </SyntaxHighlighter>
+                    )
                     : <code className={className} {...props} />
             }
         }
